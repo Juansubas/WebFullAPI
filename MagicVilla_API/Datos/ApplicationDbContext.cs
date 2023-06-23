@@ -1,6 +1,11 @@
-﻿namespace MagicVilla_API.Datos
+﻿using MagicVilla_API.Modelos;
+using Microsoft.EntityFrameworkCore;
+
+namespace MagicVilla_API.Datos
 {
-    public class ApplicationDbContext
+    public class ApplicationDbContext : DbContext
     {
+        public DbSet<Villa> Villas { get; set; }
+
     }
 }
