@@ -15,29 +15,46 @@ namespace MagicVilla_API.Repositorio
             _db = db;
             this.dbSet = _db.Set<T>();
         }
-        public Task Crear(T entidad)
+        public async Task Crear(T entidad)
         {
-            throw new NotImplementedException();
+            await dbSet.AddAsync(entidad);
+            await Grabar();
         }
 
-        public Task Grabar()
+        public async Task Grabar()
         {
-            throw new NotImplementedException();
+            await _db.SaveChangesAsync();
         }
 
-        public Task<T> Obtener(Expression<Func<T, bool>>? filtro = null, bool traked = true)
+        public async Task<T> Obtener(Expression<Func<T, bool>>? filtro = null, bool tracked = true)
         {
-            throw new NotImplementedException();
+            IQueryable<T> query = dbSet;
+            if(!tracked)
+            {
+                query = query.AsNoTracking();
+            }
+
+            if( filtro != null)
+            {
+                query = query.Where(filtro);
+            }
+
+            return await query.FirstOrDefaultAsync();
         }
 
-        public Task<List<T>> ObtenerTodos(Expression<Func<T, bool>>? filtro = null)
+        public async Task<List<T>> ObtenerTodos(Expression<Func<T, bool>>? filtro = null)
         {
-            throw new NotImplementedException();
+            IQueryable<T> query = dbSet;
+
+            if( filtro != null) query = query.Where(filtro);
+
+            return await query.ToListAsync();
         }
 
-        public Task Remover(T entidad)
+        public async Task Remover(T entidad)
         {
-            throw new NotImplementedException();
+            dbSet.Remove(entidad);
+            await Grabar();
         }
     }
 }
