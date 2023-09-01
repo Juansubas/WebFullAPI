@@ -12,9 +12,12 @@ namespace MagicVilla_API.Repositorio
         {
             _db = db;
         }
-        public Task<Villa> Actualizar(Villa entidad)
+        public async Task<Villa> Actualizar(Villa entidad)
         {
-            throw new NotImplementedException();
+            entidad.FechaActualizacion = DateTime.Now;
+            _db.Villas.Update(entidad);
+            await _db.SaveChangesAsync();
+            return entidad;
         }
     }
 }
