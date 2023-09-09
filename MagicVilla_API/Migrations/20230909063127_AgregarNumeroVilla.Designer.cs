@@ -4,6 +4,7 @@ using MagicVilla_API.Datos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MagicVilla_API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230909063127_AgregarNumeroVilla")]
+    partial class AgregarNumeroVilla
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,12 +40,15 @@ namespace MagicVilla_API.Migrations
                     b.Property<DateTime>("FechaCreacion")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("VilaId")
+                        .HasColumnType("int");
+
                     b.Property<int>("VillaId")
                         .HasColumnType("int");
 
                     b.HasKey("VillaNo");
 
-                    b.HasIndex("VillaId");
+                    b.HasIndex("VilaId");
 
                     b.ToTable("NumeroVillas");
                 });
@@ -96,8 +102,8 @@ namespace MagicVilla_API.Migrations
                             Id = 1,
                             Amenidad = "",
                             Detalle = "Detalle de la villa",
-                            FechaActualizacion = new DateTime(2023, 9, 9, 2, 29, 21, 825, DateTimeKind.Local).AddTicks(262),
-                            FechaCreacion = new DateTime(2023, 9, 9, 2, 29, 21, 825, DateTimeKind.Local).AddTicks(253),
+                            FechaActualizacion = new DateTime(2023, 9, 9, 1, 31, 27, 545, DateTimeKind.Local).AddTicks(4971),
+                            FechaCreacion = new DateTime(2023, 9, 9, 1, 31, 27, 545, DateTimeKind.Local).AddTicks(4959),
                             ImagenUrl = "",
                             MetrosCuadrados = 50,
                             Name = "Villa Real",
@@ -109,8 +115,8 @@ namespace MagicVilla_API.Migrations
                             Id = 2,
                             Amenidad = "",
                             Detalle = "Detalle de la villa",
-                            FechaActualizacion = new DateTime(2023, 9, 9, 2, 29, 21, 825, DateTimeKind.Local).AddTicks(265),
-                            FechaCreacion = new DateTime(2023, 9, 9, 2, 29, 21, 825, DateTimeKind.Local).AddTicks(264),
+                            FechaActualizacion = new DateTime(2023, 9, 9, 1, 31, 27, 545, DateTimeKind.Local).AddTicks(4974),
+                            FechaCreacion = new DateTime(2023, 9, 9, 1, 31, 27, 545, DateTimeKind.Local).AddTicks(4974),
                             ImagenUrl = "",
                             MetrosCuadrados = 40,
                             Name = "Premium Vista a la Piscina",
@@ -123,7 +129,7 @@ namespace MagicVilla_API.Migrations
                 {
                     b.HasOne("MagicVilla_API.Modelos.Villa", "Villa")
                         .WithMany()
-                        .HasForeignKey("VillaId")
+                        .HasForeignKey("VilaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
