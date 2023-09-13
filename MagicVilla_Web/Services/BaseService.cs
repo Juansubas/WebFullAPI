@@ -17,7 +17,7 @@ namespace MagicVilla_Web.Services
             this._httpClient = httpClient;
         }
 
-        public Task<T> SendAsync<T>(APIRequest apiRequest)
+        public async Task<T> SendAsync<T>(APIRequest apiRequest)
         {
             try
             {
@@ -55,11 +55,25 @@ namespace MagicVilla_Web.Services
                 //        message.Method = HttpMethod.Get;
                 //        break;
                 //}
-            }
-            catch (Exception)
-            {
 
-                throw;
+                HttpResponseMessage apiResponse = null;
+                apiResponse = await client.SendAsync(message);
+                var apiContent = await apiResponse.Content.ReadAsStringAsync();
+                var APIResponse = JsonConvert.DeserializeObject<T>(apiContent);
+                return APIResponse;
+            }
+            catch (Exception ex)
+            {
+                var dto = new APIResponse
+                {
+                    ErrorMessages = new List<string> { Convert.ToString(ex.Message) },
+                    IsSuccess = false,
+                };
+                //Lo transforma a un Json
+                var res = JsonConvert.SerializeObject(dto);
+                //Lo transforma de Json a un objeto definido en el T
+                var APIResponse = JsonConvert.DeserializeObject<T>(res);
+                return APIResponse;
             }
         }
     }

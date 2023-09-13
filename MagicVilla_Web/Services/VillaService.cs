@@ -46,10 +46,20 @@ namespace MagicVilla_Web.Services
 
         public Task<T> ObtenerTodos<T>()
         {
+            return SendAsync<T>(new APIRequest()
+            {
+                APITipo = DS.APITipo.GET,
+                Url = _villaUrl + "/api/Villa/" 
+            });
         }
 
         public Task<T> Remover<T>(int id)
         {
+            return SendAsync<T>(new APIRequest()
+            {
+                APITipo = DS.APITipo.DELETE,
+                Url = _villaUrl + "/api/Villa/" + id
+            });
         }
     }
 }
