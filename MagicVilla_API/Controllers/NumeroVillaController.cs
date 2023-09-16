@@ -38,7 +38,7 @@ namespace MagicVilla_API.Controllers
             try
             {
                 _logger.LogInformation("Obtener numero de villas");
-                IEnumerable<NumeroVilla> numeroVillaLista = await _numeroRepo.ObtenerTodos();
+                IEnumerable<NumeroVilla> numeroVillaLista = await _numeroRepo.ObtenerTodos(incluirPropiedades:"Villa");
 
                 _apiResponse.Resultado = _mapper.Map<IEnumerable<NumeroVillaDto>>(numeroVillaLista);
                 _apiResponse.statusCode = HttpStatusCode.OK;
@@ -70,7 +70,7 @@ namespace MagicVilla_API.Controllers
                 }
 
                 //var villa = VillaStore.villaList.FirstOrDefault(x => x.Id == id);
-                var numeroVilla = await _numeroRepo.Obtener(v => v.VillaNo == id);
+                var numeroVilla = await _numeroRepo.Obtener(v => v.VillaNo == id, incluirPropiedades: "Villa");
 
                 if (numeroVilla == null)
                 {
