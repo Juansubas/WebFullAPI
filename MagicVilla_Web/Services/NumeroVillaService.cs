@@ -23,7 +23,7 @@ namespace MagicVilla_Web.Services
             {
                 APITipo = DS.APITipo.PUT,
                 Datos = dto,
-                Url = _villaUrl + "/api/NumeroVilla/" + dto.Id
+                Url = _villaUrl + "/api/NumeroVilla/" + dto.VillaNo
             });
         }
 
