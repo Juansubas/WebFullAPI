@@ -106,13 +106,13 @@ namespace MagicVilla_API.Controllers
 
                  if (await _numeroRepo.Obtener(v => v.VillaNo == createDto.VillaNo) != null)
                 {
-                    ModelState.AddModelError("NombreExiste", "El numero de villa ya existe");
+                    ModelState.AddModelError("ErrorMessages", "El numero de villa ya existe");
                     return BadRequest(ModelState);
                 }
 
                 if (await _villaRepo.Obtener(v => v.Id ==createDto.VillaId) == null)
                 {
-                    ModelState.AddModelError("Clave Foranea", "El id de la villa no Existe");
+                    ModelState.AddModelError("ErrorMessages", "El id de la villa no Existe");
                     return BadRequest(ModelState);
                 }
 
@@ -203,7 +203,7 @@ namespace MagicVilla_API.Controllers
                 
                 if(await _villaRepo.Obtener(V => V.Id == updateDto.VillaId) == null)
                 {
-                    ModelState.AddModelError("Clave Foranea", "El Id de la villa No existe");
+                    ModelState.AddModelError("ErrorMessages", "El Id de la villa No existe");
                     return BadRequest(ModelState);
                 }
 
