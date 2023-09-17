@@ -17,7 +17,7 @@ namespace MagicVilla_Web.Services
             _villaUrl = configuration.GetValue<string>("ServiceUrls:API_URL");
         }
 
-        public Task<T> Actualizar<T>(VillaUpdateDto dto)
+        public Task<T> Actualizar<T>(NumeroVillaUpdateDto dto)
         {
             return SendAsync<T>(new APIRequest()
             {
@@ -27,7 +27,7 @@ namespace MagicVilla_Web.Services
             });
         }
 
-        public Task<T> Crear<T>(VillaCreateDto dto)
+        public Task<T> Crear<T>(NumeroVillaCreateDto dto)
         {
             return SendAsync<T>(new APIRequest()
             {

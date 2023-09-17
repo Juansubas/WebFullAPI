@@ -53,6 +53,11 @@ namespace MagicVilla_Web.Controllers
             return View(numeroVillaVM);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreaNumeroVilla()
+        {
 
+        }
     }
 }
