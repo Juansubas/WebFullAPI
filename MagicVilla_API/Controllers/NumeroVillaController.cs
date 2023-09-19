@@ -53,7 +53,7 @@ namespace MagicVilla_API.Controllers
             return _apiResponse;
         }
 
-        [HttpGet("id:int", Name = "GetNumeroVilla")]
+        [HttpGet("{id:int}", Name = "GetNumeroVilla")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
