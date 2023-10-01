@@ -62,6 +62,7 @@ namespace MagicVilla_Web.Controllers
                 var response = await _numeroVillaService.Crear<APIResponse>(modelo.NumeroVilla);
                 if(response != null && response.IsSuccess)
                 {
+                    TempData["exitoso"] = "Numero Villa Creado Exitosamente";
                     return RedirectToAction(nameof(IndexNumeroVilla));
                 }
                 else
@@ -125,6 +126,7 @@ namespace MagicVilla_Web.Controllers
                 var response = await _numeroVillaService.Actualizar<APIResponse>(modelo.NumeroVilla);
                 if (response != null && response.IsSuccess)
                 {
+                    TempData["exitoso"] = "Numero Villa Actualizada Exitosamente";
                     return RedirectToAction(nameof(IndexNumeroVilla));
                 }
                 else
@@ -148,6 +150,50 @@ namespace MagicVilla_Web.Controllers
                                           });
             }
 
+            return View(modelo);
+        }
+
+        public async Task<IActionResult> EliminarNumeroVilla(int villaNo)
+        {
+            NumeroVillaDeleteViewModel numeroVillaVM = new();
+
+            var response = await _numeroVillaService.Obtener<APIResponse>(villaNo);
+
+            if (response != null && response.IsSuccess)
+            {
+                NumeroVillaDto modelo = JsonConvert.DeserializeObject<NumeroVillaDto>(Convert.ToString(response.Resultado));
+                numeroVillaVM.NumeroVilla = modelo;
+            }
+
+            response = await _villaService.ObtenerTodos<APIResponse>();
+            if (response != null && response.IsSuccess)
+            {
+                numeroVillaVM.villaList = JsonConvert.DeserializeObject<List<VillaDto>>(Convert.ToString(response.Resultado)).
+                                          Select(v => new SelectListItem
+                                          {
+                                              Text = v.Name,
+                                              Value = v.Id.ToString(),
+                                          });
+                return View(numeroVillaVM);
+            }
+
+            return NotFound();
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EliminarNumeroVilla(NumeroVillaDeleteViewModel modelo)
+        {
+            var response = await _numeroVillaService.Remover<APIResponse>(modelo.NumeroVilla.VillaNo);
+
+            if(response != null && response.IsSuccess)
+            {
+                TempData["exitoso"] = "Numero Villa Eliminado Exitosamente";
+                return RedirectToAction(nameof(IndexNumeroVilla));
+            }
+
+            TempData["error"] = "Un error Ocurrio al Remover";
             return View(modelo);
         }
     }
