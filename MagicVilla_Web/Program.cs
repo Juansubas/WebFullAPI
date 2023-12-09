@@ -10,12 +10,21 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddAutoMapper(typeof(MappingConfig));
 
 builder.Services.AddHttpClient<IVillaService, VillaService>();
-builder.Services.AddHttpClient<INumeroVillaService, NumeroVillaService>();
-builder.Services.AddHttpClient<IUsuarioService, UsuarioService>();
-
 builder.Services.AddScoped<IVillaService, VillaService>();
+
+builder.Services.AddHttpClient<INumeroVillaService, NumeroVillaService>();
 builder.Services.AddScoped<INumeroVillaService, NumeroVillaService>();
+
+builder.Services.AddHttpClient<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(100);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
