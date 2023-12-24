@@ -2,6 +2,7 @@
 using MagicVilla_Web.Models;
 using MagicVilla_Web.Models.Dto;
 using MagicVilla_Web.Services.IServices;
+using MagivVilla_Utility;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Diagnostics;
@@ -25,7 +26,7 @@ namespace MagicVilla_Web.Controllers
         {
             List<VillaDto> villaList = new();
 
-            var response = await _villaService.ObtenerTodos<APIResponse>();
+            var response = await _villaService.ObtenerTodos<APIResponse>(HttpContext.Session.GetString(DS.SessionToken));
 
             if(response != null && response.IsSuccess) 
             {

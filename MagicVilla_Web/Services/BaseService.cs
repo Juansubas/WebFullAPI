@@ -3,6 +3,7 @@ using MagicVilla_Web.Services.IServices;
 using MagivVilla_Utility;
 using Newtonsoft.Json;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Text;
 using static MagivVilla_Utility.DS;
 
@@ -58,6 +59,12 @@ namespace MagicVilla_Web.Services
                 //}
 
                 HttpResponseMessage apiResponse = null;
+
+                if (!string.IsNullOrEmpty(apiRequest.Token))
+                {
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiRequest.Token);
+                }
+
                 apiResponse = await client.SendAsync(message);
                 var apiContent = await apiResponse.Content.ReadAsStringAsync();
 
