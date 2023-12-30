@@ -3,6 +3,7 @@ using AutoMapper;
 using MagicVilla_API.Datos;
 using MagicVilla_API.Modelos;
 using MagicVilla_API.Modelos.Dtos;
+using MagicVilla_API.Modelos.Especificaciones;
 using MagicVilla_API.Repositorio.IRepositorio;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
@@ -33,6 +34,7 @@ namespace MagicVilla_API.Controllers
         }
 
         [HttpGet]
+        [ResponseCache(CacheProfileName = "Default30")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<APIResponse>> GetVillas()
@@ -44,6 +46,27 @@ namespace MagicVilla_API.Controllers
 
                 _apiResponse.Resultado = _mapper.Map<IEnumerable<VillaDto>>(villaList);
                 _apiResponse.statusCode = HttpStatusCode.OK;
+
+                return Ok(_apiResponse);
+            }
+            catch (Exception ex)
+            {
+                _apiResponse.IsSuccess = false;
+                _apiResponse.ErrorMessages = new List<string> { ex.Message };
+            }
+            return _apiResponse;
+        }
+        [HttpGet("VillasPaginado")]
+        [ResponseCache(CacheProfileName = "Default30")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<APIResponse> GetVillasPaginado([FromQuery] Parametros parametros)
+        {
+            try
+            {
+                var villaList = _villaRepo.ObtenerTodosPaginada(parametros);
+                _apiResponse.Resultado = _mapper.Map<IEnumerable<VillaDto>>(villaList);
+                _apiResponse.statusCode= HttpStatusCode.OK;
+                _apiResponse.TotalPaginas = villaList.MetaData.TotalPages;
 
                 return Ok(_apiResponse);
             }
