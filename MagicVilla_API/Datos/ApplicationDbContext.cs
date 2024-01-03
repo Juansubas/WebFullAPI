@@ -1,20 +1,23 @@
 ﻿using MagicVilla_API.Modelos;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace MagicVilla_API.Datos
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<UsuarioAplicacion>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
             
         }
+        public DbSet<UsuarioAplicacion> UsuarioAplicacion {  get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Villa> Villas { get; set; }
         public DbSet<NumeroVilla> NumeroVillas { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Villa>().HasData(
                 new Villa()
                 {
